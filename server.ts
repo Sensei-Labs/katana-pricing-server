@@ -26,7 +26,7 @@ server.register(async (fastify) => {
   });
 });
 
-server.listen({ port: Number(process.env.PORT || 8080) }, (err, address) => {
+server.listen(Number(process.env.PORT || 8080), '0.0.0.0', (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
