@@ -38,6 +38,7 @@ async function getCurrencyFromApi(assetSymbolList: string[]) {
 
       return {
         symbol: findValidProvider.symbol,
+        volume_change_24h: findValidProvider.quote.USD?.volume_change_24h || 0,
         price: findValidProvider.quote.USD.price,
       };
     });
@@ -53,7 +54,7 @@ async function setCurrenciesToCache(
 ) {
   for (let i = 0; i < currencyList.length; i++) {
     const currency = currencyList[i];
-    await cacheStore.set(currency.symbol, currency.price);
+    await cacheStore.set(currency.symbol, currency);
   }
 }
 
@@ -69,23 +70,23 @@ export async function getPricingAssetFromCache({
 
   for (let i = 0; i < assetSymbolList.length; i++) {
     const symbol = assetSymbolList[i];
-    const dataCache = await cacheStore.get(symbol);
+    const dataCache = await cacheStore.get<ResponseServiceType>(symbol);
 
     if (dataCache) {
       console.log(`--- ${symbol} price in cache found ---`);
       output.push({
         symbol: symbol as CurrencyEnumProvider,
-        price: dataCache as number,
+        ...dataCache,
       });
     } else {
       const currencyList = await getCurrencyFromApi(assetSymbolList);
       console.log(currencyList);
       await setCurrenciesToCache(cacheStore, currencyList);
-      const assetCache = await cacheStore.get(symbol);
+      const assetCache = await cacheStore.get<ResponseServiceType>(symbol);
       if (assetCache) {
         output.push({
           symbol: symbol as CurrencyEnumProvider,
-          price: assetCache as number,
+          ...assetCache,
         });
       }
     }

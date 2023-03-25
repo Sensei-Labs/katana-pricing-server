@@ -13,6 +13,7 @@ export type CurrencyCoinType = {
   slug: ValidEnumProvider;
   quote: {
     USD: {
+      volume_change_24h: number;
       price: number;
     };
   };
@@ -26,5 +27,6 @@ export type ResponseCoinMarketCapType = {
 
 export type ResponseServiceType = {
   price: number;
+  volume_change_24h: number;
   symbol: CurrencyEnumProvider;
 };
