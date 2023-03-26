@@ -39,6 +39,7 @@ async function getCurrencyFromApi(assetSymbolList: string[]) {
       return {
         symbol: findValidProvider.symbol,
         volume_change_24h: findValidProvider.quote.USD?.volume_change_24h || 0,
+        percent_change_24h: findValidProvider.quote.USD?.percent_change_24h || 0,
         price: findValidProvider.quote.USD.price,
       };
     });
