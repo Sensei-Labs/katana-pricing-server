@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { getPricingAssetFromCache } from './cache/actions';
 import { cacheStore } from './cache';
 
-const ONE_MINUTES = 1000 * 15;
+const ONE_MINUTES = 1000 * 60;
 
 export default function runSocket(connection: any) {
   connection.socket.on('message', async (input: string) => {
